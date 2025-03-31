@@ -1,52 +1,32 @@
 package unit01;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AdditionServlet01")
-public class AdditionServlet01 extends HttpServlet {
+@WebServlet("/CallServlet")
+public class CallServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-    public AdditionServlet01() {
+
+	public CallServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    /*
-     * 
-<html>
-<head>
-<title>Insert title here</title>
-</head>
-<body>
-</body>
-</html>
-     */
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num1 = 20;
-		int num2 = 10;
-		int add = num1+num2;
+		System.out.println("CallServlet() - doGet");
 		
-		PrintWriter out = response.getWriter();
-		
-		out.println("<html><head><title>Addition</title></head>");
-		out.println("<body>");
-		out.println(num1 + " + " + num2 + " = " + add);
-		out.println("</body></html>");
+		String name = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		System.out.println("id: " + name);
+		System.out.println("pw: " + pw);
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("doPost................");
+		System.out.println("CallServlet() - doPost");
 	}
 
 }

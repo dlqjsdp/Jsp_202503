@@ -21,13 +21,6 @@ public class AdditionServlet01 extends HttpServlet {
     
     /*
      * 
-<html>
-<head>
-<title>Insert title here</title>
-</head>
-<body>
-</body>
-</html>
      */
 
 	@Override
