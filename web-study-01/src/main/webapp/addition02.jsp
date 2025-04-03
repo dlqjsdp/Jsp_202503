@@ -10,7 +10,7 @@
 
 	<%
 		int num1 = 20;
-		int num2= 10;
+		int num2 = 10;
 		int add = num1 + num2;
 	%>
 	

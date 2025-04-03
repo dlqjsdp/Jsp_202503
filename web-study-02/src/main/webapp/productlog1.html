@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {margin:0; box-sizing:border-box;}
+        ul, li, ol {list-style:none; margin:0; padding:0;}
+        a {text-decoration:none;}
+
+        h1 {font-size:30px; color:black; text-align:center; line-height:100px;}
+    
+        #product {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #product > .doll {
+            width:180px; height:190px; 
+            margin:50px 100px; padding:10px;
+            border:1px solid black; text-align: center;
+        }
+
+        #product > .doll:hover {box-shadow:10px 10px 6px #5f5f5f;}
+
+        #product img {width: 150px; height: 160px;}
+
+    </style>
+
+</head>
+<body>
+
+    <h1>원하는 상품을 클릭해 주세요!! 마구마구^^</h1>
+
+    <hr>
+    <form method="get" action="BasketServlet1">
+
+    <div id="product">
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p001&productName=인형1&imgSrc=./img/productlog1_1.jpg"><img src="./img/productlog1_1.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p002&productName=인형2&imgSrc=./img/productlog1_2.jpg"><img src="./img/productlog1_2.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p003&productName=인형3&imgSrc=./img/productlog1_3.jpg"><img src="./img/productlog1_3.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p004&productName=인형4&imgSrc=./img/productlog1_4.jpg"><img src="./img/productlog1_4.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p005&productName=인형5&imgSrc=./img/productlog1_5.jpg"><img src="./img/productlog1_5.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p006&productName=인형6&imgSrc=./img/productlog1_6.jpg"><img src="./img/productlog1_6.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p007&productName=인형7&imgSrc=./img/productlog1_7.jpg"><img src="./img/productlog1_7.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p008&productName=인형8&imgSrc=./img/productlog1_8.jpg"><img src="./img/productlog1_8.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p009&productName=인형9&imgSrc=./img/productlog1_9.jpg"><img src="./img/productlog1_9.jpg" alt="인형"></a>
+        </div>
+
+        <div class="doll">
+            <a href="BasketServlet1?productid=p010&productName=인형10&imgSrc=./img/productlog1_10.jpg"><img src="./img/productlog1_10.jpg" alt="인형"></a>
+        </div>
+
+    </div>
+    
+    </form>>
+
+</body>
+</html>
