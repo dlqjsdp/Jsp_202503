@@ -28,11 +28,19 @@
 		</tr>
 		<%
 			try{
+				// 1. 드라이브 로드(객체 생성)
 				Class.forName("oracle.jdbc.driver.OracleDriver");
+				// 2. DB연결
 				conn = DriverManager.getConnection(url,uid,pass);
-				stmt = conn.createStatement();
+				// 3. sql 구문 전송
+				stmt = conn.createStatement(); //select, 조회
+				//stmt.excuteUpdate(sql); 
+				// -> insert, update, delete를 하고 싶을때 사용하는 코드 (이번에는 필요없음)
+				
+				// 4. 조회한 결과 주소를 가지고 있음.
 				rs = stmt.executeQuery(sql);
 				
+				// 5. 결과 출력
 				while(rs.next()){
 					out.println("<tr>");
 					out.println("<td>" + rs.getString("name") + "</td>");
