@@ -19,8 +19,8 @@
 	PreparedStatement pstmt = null;
 	
 	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String uid = "scott";
-	String pass = "1234";
+	String uid = "system";
+	String pass = "oracle";
 	
 	String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
 	
