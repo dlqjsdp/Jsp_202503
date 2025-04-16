@@ -39,10 +39,10 @@ public class MemberDAO {
 		/*
 		 * 1  : userid, pwd 일치
 		 * 0  : userid 일치, pwd 불일치
-		 * -1 : userid 불일치 
+		 * -1 : userid 불일치 -> 아이디 없음
 		 */
 		
-		int result = -1;
+		int result = -1; //result 초기값 -1로 설정
 		
 		String sql = "select pwd from member where userid = ?";
 		Connection conn = null;
@@ -172,4 +172,104 @@ public class MemberDAO {
 		}
 		return result;
 	}
+	
+	//저장
+	public int insertMember(MemberVO mVo) {
+
+		int result = -1; //result 초기값 -1로 설정
+		/* -1로 초기화 이유 => 예외 상황 대비
+			 try 안의 로직이 실패하거나, DB 연결이 실패할 경우
+			→ pstmt.executeUpdate()는 호출되지 않음 
+			→ 그래서 초기값 -1은 "예외나 로직 실패"를 의미하는 안전한 디폴트값
+		 */
+			
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
+			
+		try {
+			//1. DB 연결
+			conn = getConnection();
+			//2. sql구문 전송
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVo.getName());
+			pstmt.setString(2, mVo.getUserid());
+			pstmt.setString(3, mVo.getPwd());
+			pstmt.setString(4, mVo.getEmail());
+			pstmt.setString(5, mVo.getPhone());
+			pstmt.setInt(6, mVo.getAdmin());
+				
+			/* 3. sql 구문 실행
+				executeUpdate -> insert, update, delete 시 사용
+				result : 0 -> 저장 실패
+				result : 1 -> 저장 성공
+				commit은 auto commit;
+			*/
+			
+			result = pstmt.executeUpdate();	
+			// pstmt.executeUpdate()의 결과가 성공이면 1, 실패면 0이 리턴됨
+
+			/*
+			  여기서도 -1은 초기 실패 상태로 가정
+			  insertMember()는 성공/실패 여부만 리턴하면 되기 때문에
+			  실제로 -1, 0, 1을 구분하는 용도는 아니고 단순 실패 대비용 초기값
+			 */
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	} //end insertMember
+
+	
+	public void updateMember(MemberVO mVo) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			                          //     1      2       3       4        5             6
+		String sql = "update member set name=?, pwd=?, email=?, phone=?, admin=? where userid=?";
+			
+		try {
+			//1. DB 연결
+			conn = getConnection();
+			//2. sql구문 전송
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVo.getName());
+			pstmt.setString(2, mVo.getPwd());
+			pstmt.setString(3, mVo.getEmail());
+			pstmt.setString(4, mVo.getPhone());
+			pstmt.setInt(5, mVo.getAdmin());
+			pstmt.setString(6, mVo.getUserid());
+				
+			/* 3. sql 구문 실행
+				executeUpdate -> insert, update, delete 시 사용
+				result : 0 -> 저장 실패
+				result : 1 -> 저장 성공
+				commit은 auto commit;
+			*/
+			
+			int result = pstmt.executeUpdate();	
+			// pstmt.executeUpdate()의 결과가 성공이면 1, 실패면 0이 리턴됨			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+		
 }

@@ -65,7 +65,5 @@ public class MemberVO {
 	public void setAdmin(int admin) {
 		this.admin = admin;
 	}
-	
-	
-
+		
 }
