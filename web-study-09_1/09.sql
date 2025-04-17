@@ -1,22 +1,43 @@
-CREATE TABLE EMPLOYEES(
-    id varchar2(10) not null,
-    pass varchar2(10) not null,
-    name varchar2(24),
-    lev char(1) DEFAULT 'A', -- A : 운영자, B : 일반회원
-    enter DATE DEFAULT SYSDATE, -- 등록일
-    gender CHAR(1) DEFAULT '1', -- 1 : 남자, 2 : 여자
-    phone varchar2(30),
-    primary key(id)
+create table member(
+    name varchar2(20) ,
+    userid varchar2(10) ,
+    pwd varchar2(10),
+    email varchar2(20),
+    phone char(13),  -- 010-3380-6423
+    admin number(1) default 0, -- 사용자: 0, 관리자:1
+    primary key(userid)
 );
 
-insert into EMPLOYEES(id, pass, name, lev, gender, phone) values('pinksung', '3333', '성윤정', 'A', '2', '010-2222-2222');
-insert into EMPLOYEES(id, pass, name, lev, gender, phone) values('subin', '1234', '전원지', 'B', '1', '010-9999-9999');
-insert into EMPLOYEES(id, pass, name, lev, gender, phone) values('admin', '1111', '정운영', 'A', '1', '010-1111-1111');
+insert into member values('이소미', 'somi', '1234', 'gmd@naver.com','010-2362-5157', 0);
+insert into member values('하상오', 'sang12', '1234', 'ha12@naver.com','010-5926-8888', 1);
+insert into member values('김윤승', 'light', '1234', 'youn1004@naver.com','010-9999-8282', 0);
 
 commit;
 
-SELECT *
-from EMPLOYEES;
+CREATE TABLE EMPLOYEE(
+	name varchar2(20),
+	address varchar2(100),
+	ssn varchar2(15)
+);
 
-select id, pass, name,lev, to_char(ENTER, 'YYYY-MM-DD HH:MI:SS'),gender,phone 
-from employees;
+insert into EMPLOYEE VALUES('duke', 'seoul', '970224-1039234');
+insert into EMPLOYEE VALUES('pororo', 'pusan', '001222-1038782');
+insert into EMPLOYEE VALUES('candy', 'deajeon', '981221-1829192');
+
+commit;
+
+select *
+from EMPLOYEE;
+
+CREATE TABLE item(
+NAME VARCHAR(20),
+price NUMBER(8),
+description VARCHAR2(100));
+
+CREATE TABLE item(
+	name varchar2(20),
+	price number(8),
+	description varchar2(100)
+);
+
+commit;

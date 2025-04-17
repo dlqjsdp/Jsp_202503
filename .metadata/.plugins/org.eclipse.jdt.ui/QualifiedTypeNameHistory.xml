@@ -8,6 +8,8 @@
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="com.saeyan.dto.MemberVO"/>
     <fullyQualifiedTypeName name="com.saeyan.dao.MemberDAO"/>
+    <fullyQualifiedTypeName name="com.magic.dto.EmployeesVO"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="javax.security.auth.message.callback.PrivateKeyCallback.Request"/>
     <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
 </qualifiedTypeNameHistroy>

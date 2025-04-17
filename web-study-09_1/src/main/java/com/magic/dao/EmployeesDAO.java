@@ -1,11 +1,10 @@
-package com.saeyan.dao;
+package com.magic.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import com.saeyan.dto.MemberVO;
+import com.magic.dto.EmployeesVO;
 
 public class EmployeesDAO {
 	
@@ -37,68 +36,74 @@ public class EmployeesDAO {
 		return DriverManager.getConnection(url,uid,pass);
 	}
 
-	//userid, pwd 전달받아서, DB랑 연동해서 데이터가 있는지 조회
-	public int userCheck(String userid, String pwd) {
+	//id, pass 전달받아서, DB랑 연동해서 데이터가 있는지 조회
+	public int userCheck(String id, String pass, String lev) {
 		
 		/*
-		 * -1: 아이디가 존재하지 않으면
-		 * 0 : 비밀번호가 맞지 않으면
-		 * 1 : 아이디, 레벨이 맞지 않으면
-		 * 2 : 관리자 레벨로 로그인 했으면
-		 * 3 : 일반회원으로 로그인하면
+		 * -1: 아이디가 존재하지 않을떄
+		 * 0 : 비밀번호가 맞지 않을떄
+		 * 1 : 레벨이 맞지 않을때, 권한없음
+		 * 2 : 관리자 로그인
+		 * 3 : 일반회원 로그인
 		 */
 		
 		int result = -1; //result 초기값 -1로 설정
 		
-		String sql = "select pwd from member where userid = ?";
+		String sql = "select pass, lev from EMPLOYEES where id = ?";
 		
 		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;  //sql 구문이 select일때만 기입!
-		
-		try {
-			//1. DB연결
-			conn = getConnection();
-			//2. sql구문 정송
-			pstmt = conn.prepareStatement(sql);
-			//3. sql 맵핑
-			pstmt.setString(1, userid);
-			//4. sql 구문 실행
-			rs = pstmt.executeQuery(); //sql 구문이 select일때만 기입!
-			
-			if(rs.next()) {
-				//회원ID 존재!!
-				if(rs.getString("pwd") != null && 
-						rs.getString("pwd").equals(pwd)) {
-					result = 1; // userid, pwd 일치
-				}else {
-					result = 0; // pwd만 불일치
-				}
-			}else {
-				//이런 회원ID는 없다!
-				result = -1;
-			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if ( rs != null) rs.close();
-				if ( pstmt != null) pstmt.close();
-				if ( conn != null) conn.close();
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = getConnection();
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, id);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            String dbPass = rs.getString("pass");
+	            String dbLev = rs.getString("lev");
+
+	            if (dbPass.equals(pass)) {
+	            	if (!dbLev.equals(lev)) {
+	                    result = 1; // 사용자가 선택한 레벨과 다름
+	                } else if (dbLev.equals("A")) {
+	                    result = 2;
+	                } else if (dbLev.equals("B")) {
+	                    result = 3;
+	                } else {
+	                    result = 1; // 권한 없음
+	                }
+	            } else {
+	                result = 0; // 비밀번호 틀림
+	            }
+	        } else {
+	            result = -1; // 아이디 없음
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return result;
+	} //userCheck(String id, String pass)
 	
-	public MemberVO getMember(String userid) {
+	
+	// 아이디를 조건으로 회원정보를 조회
+	public EmployeesVO getEmployees(String id) {
 		
-		MemberVO mVo = null;
+		EmployeesVO eVo = null;
 		
-		String sql = "select * from member where userid = ? ";
+		String sql = "select * from employees where id = ? ";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -107,24 +112,24 @@ public class EmployeesDAO {
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				String userid = rs.getString("id");
+				String pass = rs.getString("pass");
 				String name = rs.getString("name");
-				String id = rs.getString("userid");
-				String pwd = rs.getString("pwd");
-				String email = rs.getString("email");
+				String lev = rs.getString("lev");
+				String gender = rs.getString("gender");
 				String phone = rs.getString("phone");
-				int admin = rs.getInt("admin");
 				
-				mVo = new MemberVO();
-				mVo.setName(name);
-				mVo.setUserid(id);
-				mVo.setPwd(pwd);
-				mVo.setEmail(email);
-				mVo.setPhone(phone);
-				mVo.setAdmin(admin);
+				eVo = new EmployeesVO();
+				eVo.setId(id);
+				eVo.setPass(pass);
+				eVo.setName(name);
+				eVo.setLev(lev);
+				eVo.setGender(gender != null ? Integer.parseInt(gender) : null);
+				eVo.setPhone(phone);
 			}
 			
 		}catch(Exception e) {
@@ -141,47 +146,12 @@ public class EmployeesDAO {
 		}
 		
 		
-		return mVo;
-	}
+		return eVo;
+	} // getEmployees(String id)
 	
-	public int confirmID(String userid) {
-		int result = 1;
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select userid from member where userid = ?";
-
-		try {
-			
-			conn = getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			rs = pstmt.executeQuery(); 
-			
-			if(rs.next()) {
-				result = 1; //아이디 존재 => 사용불가 아이디
-			}else {
-				result = -1; //사용가능 아이디
-			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if ( rs != null) rs.close();
-				if ( pstmt != null) pstmt.close();
-				if ( conn != null) conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
 	
 	//저장
-	public int insertMember(MemberVO mVo) {
+	public int insertMember(EmployeesVO eVo) {
 
 		int result = -1; //result 초기값 -1로 설정
 		/* -1로 초기화 이유 => 예외 상황 대비
@@ -193,19 +163,21 @@ public class EmployeesDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 			
-		String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
+		String sql = "insert into employees(id, pass, name, lev, gender, phone) values (?, ?, ?, ?, ?, ?)";
 			
 		try {
 			//1. DB 연결
 			conn = getConnection();
 			//2. sql구문 전송
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mVo.getName());
-			pstmt.setString(2, mVo.getUserid());
-			pstmt.setString(3, mVo.getPwd());
-			pstmt.setString(4, mVo.getEmail());
-			pstmt.setString(5, mVo.getPhone());
-			pstmt.setInt(6, mVo.getAdmin());
+			
+			// ?값에 세팅
+			pstmt.setString(1, eVo.getId());
+			pstmt.setString(2, eVo.getPass());
+			pstmt.setString(3, eVo.getName());
+			pstmt.setString(4, eVo.getLev());
+			pstmt.setString(5, eVo.getGender() != null ? eVo.getGender().toString() : "1");
+			pstmt.setString(6, eVo.getPhone());
 				
 			/* 3. sql 구문 실행
 				executeUpdate -> insert, update, delete 시 사용
@@ -238,24 +210,25 @@ public class EmployeesDAO {
 	} //end insertMember
 
 	
-	public void updateMember(MemberVO mVo) {
+	public void updateMember(EmployeesVO eVo) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 			                          //     1      2       3       4        5             6
-		String sql = "update member set name=?, pwd=?, email=?, phone=?, admin=? where userid=?";
+		String sql = "update employees set pass=?, name=?, lev=?, gender=?, phone=? where id=?";
 			
 		try {
 			//1. DB 연결
 			conn = getConnection();
 			//2. sql구문 전송
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mVo.getName());
-			pstmt.setString(2, mVo.getPwd());
-			pstmt.setString(3, mVo.getEmail());
-			pstmt.setString(4, mVo.getPhone());
-			pstmt.setInt(5, mVo.getAdmin());
-			pstmt.setString(6, mVo.getUserid());
+			
+			pstmt.setString(1, eVo.getPass());
+			pstmt.setString(2, eVo.getName());
+			pstmt.setString(3, eVo.getLev());
+			pstmt.setString(4, eVo.getGender() != null ? eVo.getGender().toString() : "1");
+			pstmt.setString(5, eVo.getPhone());
+			pstmt.setString(6, eVo.getId());
 				
 			/* 3. sql 구문 실행
 				executeUpdate -> insert, update, delete 시 사용
@@ -264,8 +237,9 @@ public class EmployeesDAO {
 				commit은 auto commit;
 			*/
 			
-			int result = pstmt.executeUpdate();	
-			// pstmt.executeUpdate()의 결과가 성공이면 1, 실패면 0이 리턴됨			
+			pstmt.executeUpdate();
+			// pstmt.executeUpdate()의 결과가 성공이면 1, 실패면 0이 리턴됨		
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -277,6 +251,6 @@ public class EmployeesDAO {
 			}
 		}
 		
-	}
+	} // end updateMember
 		
 }

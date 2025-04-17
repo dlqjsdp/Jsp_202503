@@ -12,6 +12,8 @@
 	
 </c:if> 
 
+<%@ include file="header.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,21 +21,11 @@
 <title>회원 관리</title>
 </head>
 <body>
-	<h2>회원 전용 페이지</h2>
+	<h2 style="text-align: center;">회원 전용 페이지</h2>
 	<form action="logout.do">
-		<table>
-			<tr>
-				<td>안녕하세요. ${loginUser.name}(${loginUser.userid})님</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="submit" value="로그아웃"> &nbsp;&nbsp;
-					<input type="button" value="회원정보변경"
-						onclick="location.href='memberUpdate.do?userid=${loginUser.userid}'">
-				</td>
-			</tr>
-		</table>
-		
+		<div style="text-align: center;">
+		<img src="https://pimg.mk.co.kr/meet/2014/02/image_listmain_2014_269010_1392801484.jpg" width="250px" height="300px">
+	</div>
 	</form>
 
 </body>

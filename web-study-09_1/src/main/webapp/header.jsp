@@ -10,21 +10,22 @@
 <title>Insert title here</title>
 
 <style>
-td {
+table.menu td {
 	border: 1px solid black;
 	text-align: center;
 	width: 200px;
+	height: 60px; 
 }
 
-table.menu td.login:hover {
-	background-color: black;
+table.menu td.hover:hover {
+	background-color: #FFD400;
 }
 </style>
 
 </head>
 <body>
 
-	<table class="menu" align = "center" style="width:80%">
+	<table class="menu" align = "center" style="width:90%">
 		<c:if test="${empty loginUser}">
 			<tr>
 				<td></td>
@@ -32,7 +33,7 @@ table.menu td.login:hover {
 				<td>로그인</td>
 				<td>
 					사원등록<br>
-					<span style="color: gray;">(관리자로 로그인 후 사용 가능)</span>
+					<span style="color: gray;">(운영자로 로그인 후 사용 가능)</span>
 				</td>
 				<td>
 					마이페이지<br>
@@ -45,16 +46,16 @@ table.menu td.login:hover {
 			<tr>
 				<td>${loginUser.name}님 반갑습니다.</td>
 				<td>레벨 : ${loginUser.lev}</td>
-				<td><a href="logout.dot">로그아웃</a></td> 
+				<td><a href="logout.do">로그아웃</a></td> 
 				<c:choose>
 					<c:when test="${result==2}">
-						<td class="login"><a href="custom.do">사원 등록</a></td>
+						<td class="hover"><a href="custom.do">사원 등록</a></td>
 					</c:when>
 					<c:when test="${result==3}">
-						<td>사원 등록<br>(관리자만 가능)</td>
+						<td>사원 등록<br>(운영자만 가능)</td>
 					</c:when>
 				</c:choose>
-				<td class="login">
+				<td class="hover">
 					<a href="mypage.do">마이페이지</a>
 				</td>
 			</tr>

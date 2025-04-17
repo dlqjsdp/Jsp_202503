@@ -1,4 +1,4 @@
-package com.saeyan.dto;
+package com.magic.dto;
 
 import java.util.Date;
 
@@ -22,14 +22,13 @@ public class EmployeesVO {
 	private String name;
 	private String lev;
 	private Date enter;
-	private String gender;
+	private Integer gender;
 	private String phone;
-	
 	
 	
 	@Override
 	public String toString() {
-		return "EMPLOYEESVO [id=" + id + ", pass=" + pass + ", name=" + name + ", lev=" + lev + ", enter=" + enter
+		return "EmployeesVO [id=" + id + ", pass=" + pass + ", name=" + name + ", lev=" + lev + ", enter=" + enter
 				+ ", gender=" + gender + ", phone=" + phone + "]";
 	}
 	
@@ -63,10 +62,10 @@ public class EmployeesVO {
 	public void setEnter(Date enter) {
 		this.enter = enter;
 	}
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 	public String getPhone() {
@@ -75,6 +74,7 @@ public class EmployeesVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 	
 	
 	
