@@ -16,3 +16,11 @@ function productCheck() {
    }
    return true;
 }
+
+function checkDelete(){
+	if(confirm("정말로 삭제하시겠습니까?")){
+		return ture;
+	}else{
+	return false;		
+	}
+}
