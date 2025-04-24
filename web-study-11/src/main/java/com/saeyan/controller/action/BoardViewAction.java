@@ -1,13 +1,23 @@
 package com.saeyan.controller.action;
 
 /*
- [1] boardList.jsp에서 게시글 제목 클릭
- → [2] BoardServlet?command=board_view&num=글번호 요청
-   → [3] BoardViewAction.execute() 실행
-     → [4] 조회수 증가
-     → [5] 글 1개 가져오기
-     → [6] request에 데이터 담기
-     → [7] boardView.jsp로 forward
+[1] boardList.jsp에서 제목 클릭 (GET, num 포함)
+    ↓
+[2] BoardServlet (Dispatcher 역할) 요청 수신
+    ↓
+[3] ActionFactory → BoardViewAction 생성
+    ↓
+[4] BoardViewAction:
+       - request.getParameter("num")로 글 번호 받기
+       - BoardDAO.updateReadCount(num) → 조회수 증가
+       - BoardDAO.selectOneBoardByNum(num) → 해당 글 정보 가져오기
+       - request.setAttribute("board", bVo)
+    ↓
+[5] forward → boardView.jsp
+    ↓
+[6] boardView.jsp: ${board.title}, ${board.content} 등으로 데이터 출력
+    ↓
+[7] 사용자 화면에 해당 글 상세 내용 렌더링됨
  */
 
 /*

@@ -197,6 +197,35 @@ public class BoardDAO {
 		}
 		
 	}// end deleteBoard(int num)
+
+	//데이타 수정하기
+		public void updateBoard(BoardVO bVo) {
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+		
+			String sql = "update board set name = ?, pass=?, email = ?, title=?, content=? where num = ? ";
+			try {
+				//1. DB연결
+				conn = DBManager.getConnection();
+				//2. sql전송
+				pstmt = conn.prepareStatement(sql);
+				//3. sql 맵핑
+				pstmt.setString(1, bVo.getName());
+				pstmt.setString(2, bVo.getPass());
+				pstmt.setString(3, bVo.getEmail());
+				pstmt.setString(4, bVo.getTitle());
+				pstmt.setString(5, bVo.getContent());
+				pstmt.setInt(6, bVo.getNum());		
+				//4. sql 실행
+				pstmt.executeUpdate();			
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				DBManager.close(conn, pstmt);
+			}
+		
+	} // end updateBoard(BoardVO bVo)
 	
 
 	//데이터 수정하기

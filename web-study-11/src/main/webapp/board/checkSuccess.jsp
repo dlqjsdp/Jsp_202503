@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 		if(window.name == "update"){
 			window.opener.parent.location.href=
-				"BoardServlet?command=board_update&num=<%= request.getParameter("num")%>"
+				"BoardServlet?command=board_update_form&num=<%= request.getParameter("num")%>"
 		}else if(window.name == "delete"){
 			alert("삭제되었습니다.")
 			window.opener.parent.location.href=

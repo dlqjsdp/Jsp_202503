@@ -30,7 +30,8 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.saeyan.controller.action.Action"/>
     <fullyQualifiedTypeName name="com.saeyan.controller.action.BoardWriteAction"/>
-    <fullyQualifiedTypeName name="com.saeyan.dto.BoardVO"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.saeyan.dto.BoardVO"/>
     <fullyQualifiedTypeName name="com.saeyan.dao.BoardDAO"/>
+    <fullyQualifiedTypeName name="com.saeyan.controller.action.BoardListAction"/>
 </qualifiedTypeNameHistroy>

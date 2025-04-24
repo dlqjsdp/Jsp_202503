@@ -15,6 +15,7 @@ function boardCheck() {
 }
 
 //open_win('BoardServlet?command=board_check_pass_form&num=${board.num}', 'delete')
+//open_win('BoardServlet?command=board_check_pass_form&num=${board.num}', 'update'
 function open_win(url, name) {
    window.open(url, name, "width=500, height=230");
 }
